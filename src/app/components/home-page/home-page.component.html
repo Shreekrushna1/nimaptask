@@ -1,0 +1,20 @@
+<nz-layout>
+  <nz-header>
+    <div class="logo">Nimap Task</div>
+    <ul nz-menu nzTheme="dark" nzMode="horizontal" *ngIf="!isRegister">
+      <li nz-menu-item (click)="openDialog('login')">Login</li>
+      <li nz-menu-item (click)="openDialog('register')">Register</li>
+    </ul>
+    <ul nz-menu nzTheme="dark" nzMode="horizontal" *ngIf="isRegister">
+      <li nz-menu-item (click)="logout()">Logout</li>
+    </ul>
+  </nz-header>
+</nz-layout>
+<div *ngIf="isRegister">
+    <app-dashboard></app-dashboard>
+</div>
+<div *ngIf="!isRegister" style="display: flex; justify-content: center; align-items: center; height: 87%;">
+    <div style="text-align: center;">
+        Welcome To Task
+    </div>
+</div>

@@ -1,0 +1,370 @@
+<div
+  style="
+    display: flex;
+    justify-content: space-between;
+    background: #ececec;
+    padding: 30px;
+  "
+>
+  <nz-card style="width: 100%" [nzBordered]="true">
+    <div style="display: flex">
+      <div style="width: 50%">
+        <img [src]="userDetails.profileImg" alt="User Profile Image" />
+        <div class="clearfix" *ngIf="!isDisabled" >
+            <nz-upload
+              nzListType="picture"
+              nzAction="http://localhost:3000/images"
+              (nzChange)="handleChange($event)"
+            >
+              <button nz-button>
+                <span nz-icon nzType="upload"></span>
+                Change Profile Picture
+              </button>
+            </nz-upload>
+            {{ msg ? msg : "" }}
+          </div>
+
+      </div>
+      <div style="width: 50%">
+        <div style="display: flex;float: inline-end;" *ngIf="isDisabled">
+            <button nz-button nzType="primary" (click)="editDetails()">Edit Details</button>
+        </div>
+        <div style="display: flex;float: inline-end;" *ngIf="!isDisabled">
+            <button nz-button nzType="primary" (click)="submktDetails()">Submit Details</button>
+        </div>
+        <div style="margin-top: 50px;">
+            <form [formGroup]="userDetailsForm">
+              <div nz-row>
+                <div nz-col [nzSpan]="12">
+                  <nz-form-item>
+                    <nz-form-label [nzSm]="7" nzRequired>First Name</nz-form-label>
+                    <nz-form-control [nzSm]="22">
+                      <input
+                        nz-input
+                        formControlName="firstName"
+                        type="text"
+                        placeholder="Enter your first name"
+                      />
+                      <nz-form-explain
+                        *ngIf="
+                          formControls.firstName.touched &&
+                          formControls.firstName.errors
+                        "
+                      >
+                        <ng-container
+                          *ngIf="formControls.firstName.hasError('required')"
+                        >
+                          <span class="error-message">
+                            First name is required
+                          </span>
+                        </ng-container>
+                        <ng-container
+                          *ngIf="formControls.firstName.hasError('maxlength')"
+                        >
+                          <span class="error-message"
+                            >First name should not exceed 20 characters</span
+                          >
+                        </ng-container>
+                      </nz-form-explain>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+                <div nz-col [nzSpan]="12">
+                  <nz-form-item>
+                    <nz-form-label [nzSm]="7" nzRequired>Last Name</nz-form-label>
+                    <nz-form-control [nzSm]="22">
+                      <input
+                        nz-input
+                        formControlName="lastName"
+                        type="text"
+                        placeholder="Enter your last name"
+                      />
+                      <nz-form-explain
+                        *ngIf="
+                          formControls.lastName.touched &&
+                          formControls.lastName.errors
+                        "
+                      >
+                        <ng-container
+                          *ngIf="formControls.lastName.hasError('required')"
+                        >
+                          <span class="error-message"> Last name is required </span>
+                        </ng-container>
+                      </nz-form-explain>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div nz-row>
+                <div nz-col [nzSpan]="12">
+                  <nz-form-item>
+                    <nz-form-label [nzSm]="7" nzRequired>Username</nz-form-label>
+                    <nz-form-control [nzSm]="22">
+                      <input
+                        nz-input
+                        formControlName="username"
+                        placeholder="Enter your username"
+                      />
+                      <nz-form-explain
+                        *ngIf="
+                          formControls.username.touched &&
+                          formControls.username.errors
+                        "
+                      >
+                        <ng-container
+                          *ngIf="formControls.username.hasError('required')"
+                        >
+                          <span class="error-message"> Username is required </span>
+                        </ng-container>
+                      </nz-form-explain>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+                <div nz-col [nzSpan]="12">
+                  <nz-form-item>
+                    <nz-form-label [nzSm]="7" nzRequired>Password</nz-form-label>
+                    <nz-form-control [nzSm]="22">
+                      <input
+                        nz-input
+                        formControlName="password"
+                        type="password"
+                        placeholder="Enter your password"
+                      />
+                      <nz-form-explain
+                        *ngIf="
+                          formControls.password.touched &&
+                          formControls.password.errors
+                        "
+                      >
+                        <ng-container
+                          *ngIf="formControls.password.hasError('required')"
+                        >
+                          <span class="error-message"> Password is required </span>
+                        </ng-container>
+                      </nz-form-explain>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div nz-row>
+                <div nz-col [nzSpan]="12">
+                  <nz-form-item>
+                    <nz-form-label [nzSm]="8" nzRequired
+                      >Address Type</nz-form-label
+                    >
+                    <nz-form-control [nzSm]="22">
+                      <nz-select
+                        nzShowSearch
+                        nzAllowClear
+                        nzPlaceHolder="Select a address type"
+                        formControlName="addressType"
+                      >
+                        <nz-option nzLabel="Home" nzValue="home"></nz-option>
+                        <nz-option nzLabel="Company" nzValue="company"></nz-option>
+                      </nz-select>
+                      <nz-form-explain
+                        *ngIf="
+                          formControls.addressType.touched &&
+                          formControls.addressType.errors
+                        "
+                      >
+                        <ng-container
+                          *ngIf="formControls.addressType.hasError('required')"
+                        >
+                          <span class="error-message"
+                            >Address type is required</span
+                          >
+                        </ng-container>
+                      </nz-form-explain>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+                <div nz-col [nzSpan]="12">
+                  <nz-form-item>
+                    <nz-form-label [nzSm]="4" nzRequired>Age</nz-form-label>
+                    <nz-form-control [nzSm]="22">
+                      <input
+                        nz-input
+                        formControlName="age"
+                        type="number"
+                        placeholder="Enter your age"
+                      />
+    
+                      <nz-form-explain
+                        *ngIf="
+                          formControls.age.touched &&
+                          formControls.age.errors
+                        "
+                      >
+                        <ng-container
+                          *ngIf="formControls.age.hasError('required')"
+                        >
+                          <span class="error-message">
+                            Age is required
+                          </span>
+                        </ng-container>
+                        <ng-container
+                          *ngIf="formControls.firstName.hasError('maxlength')"
+                        >
+                          <span class="error-message"
+                            >First name should not exceed 20 characters</span
+                          >
+                        </ng-container>
+                      </nz-form-explain>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div
+                nz-row
+                *ngIf="userDetailsForm.get('addressType')?.value === 'company'"
+              >
+                <div nz-col [nzSpan]="12">
+                  <nz-form-item>
+                    <nz-form-label [nzSm]="15" nzRequired
+                      >Company Address 1</nz-form-label
+                    >
+                    <nz-form-control [nzSm]="22">
+                      <input
+                        nz-input
+                        formControlName="companyAddress1"
+                        placeholder="Enter company address 1"
+                      />
+                    </nz-form-control>
+                    <nz-form-explain
+                      *ngIf="
+                        formControls.companyAddress1.touched &&
+                        formControls.companyAddress1.errors
+                      "
+                    >
+                      <ng-container
+                        *ngIf="formControls.companyAddress1.hasError('required')"
+                      >
+                        <span class="error-message"
+                          >Company address 1 is required</span
+                        >
+                      </ng-container>
+                    </nz-form-explain>
+                  </nz-form-item>
+                </div>
+                <div nz-col [nzSpan]="12">
+                  <nz-form-item>
+                    <nz-form-label [nzSm]="15" nzRequired
+                      >Company Address 2</nz-form-label
+                    >
+                    <nz-form-control [nzSm]="22">
+                      <input
+                        nz-input
+                        formControlName="companyAddress2"
+                        placeholder="Enter company address 2"
+                      />
+                    </nz-form-control>
+                    <nz-form-explain
+                      *ngIf="
+                        formControls.companyAddress2.touched &&
+                        formControls.companyAddress2.errors
+                      "
+                    >
+                      <ng-container
+                        *ngIf="formControls.companyAddress2.hasError('required')"
+                      >
+                        <span class="error-message"
+                          >Company address 2 is required</span
+                        >
+                      </ng-container>
+                    </nz-form-explain>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div
+                nz-row
+                *ngIf="userDetailsForm.get('addressType')?.value === 'home'"
+              >
+                <div nz-col [nzSpan]="12">
+                  <nz-form-item>
+                    <nz-form-label [nzSm]="12" nzRequired
+                      >Home Address 1</nz-form-label
+                    >
+                    <nz-form-control [nzSm]="22">
+                      <input
+                        nz-input
+                        formControlName="homeAddress1"
+                        placeholder="Enter home address 1"
+                      />
+                    </nz-form-control>
+                    <nz-form-explain
+                      *ngIf="
+                        formControls.homeAddress1.touched &&
+                        formControls.homeAddress1.errors
+                      "
+                    >
+                      <ng-container
+                        *ngIf="formControls.homeAddress1.hasError('required')"
+                      >
+                        <span class="error-message"
+                          >Home address 1 is required</span
+                        >
+                      </ng-container>
+                    </nz-form-explain>
+                  </nz-form-item>
+                </div>
+                <div nz-col [nzSpan]="12">
+                  <nz-form-item>
+                    <nz-form-label [nzSm]="12" nzRequired
+                      >Home Address 2</nz-form-label
+                    >
+                    <nz-form-control [nzSm]="22">
+                      <input
+                        nz-input
+                        formControlName="homeAddress2"
+                        placeholder="Enter home address 2"
+                      />
+                    </nz-form-control>
+                    <nz-form-explain
+                      *ngIf="
+                        formControls.homeAddress2.touched &&
+                        formControls.homeAddress2.errors
+                      "
+                    >
+                      <ng-container
+                        *ngIf="formControls.homeAddress2.hasError('required')"
+                      >
+                        <span class="error-message"
+                          >Home address 2 is required</span
+                        >
+                      </ng-container>
+                    </nz-form-explain>
+                  </nz-form-item>
+                </div>
+              </div>
+              <div nz-col [nzSpan]="24">
+                <nz-form-item>
+                  <nz-form-label nzRequired>Tags</nz-form-label>
+                  <nz-form-control>
+                    <input
+                      #tagInput
+                      nz-input
+                      [disabled]="isDisabled"
+                      (keydown.space)="addTag(tagInput.value)"
+                      (blur)="addTag(tagInput.value)"
+                      placeholder="Enter tags separated by spaces"
+                    />
+                    <div *ngIf="isDisabled">
+                        <nz-tag *ngFor="let tag of tags;let index = index" nzMode="default" (nzOnClose)="removeTag(tag,index)">
+                          {{ tag }}
+                        </nz-tag>
+                    </div>
+                    <div *ngIf="!isDisabled">
+                        <nz-tag *ngFor="let tag of tags;let index = index" nzMode="closeable" (nzOnClose)="removeTag(tag,index)">
+                          {{ tag }}
+                        </nz-tag>
+                    </div>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </nz-card>
+</div>

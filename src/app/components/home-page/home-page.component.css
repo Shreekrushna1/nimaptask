@@ -1,0 +1,12 @@
+.logo {
+    width: 120px;
+    height: 31px;
+    float: left;
+    color: white;
+  }
+  [nz-menu] {
+    line-height: 64px;
+  }
+  ul{
+    float: right;
+  }

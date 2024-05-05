@@ -1,0 +1,28 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <nz-form-item>
+        <nz-form-label [nzSm]="6" nzRequired>Username</nz-form-label>
+        <nz-form-control [nzSm]="14">
+            <input nz-input formControlName="username" placeholder="Enter your username">
+            <nz-form-explain *ngIf="formControls.username.touched && formControls.username.errors">
+                <ng-container *ngIf="formControls.username.hasError('required')">
+                    <span class="error-message">
+                        Username is required
+                    </span>
+                </ng-container>
+            </nz-form-explain>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSm]="6" nzRequired>Password</nz-form-label>
+        <nz-form-control [nzSm]="14">
+            <input nz-input formControlName="password" type="password" placeholder="Enter your password">
+            <nz-form-explain *ngIf="formControls.password.touched && formControls.password.errors">
+                <ng-container *ngIf="formControls.password.hasError('required')">
+                    <span class="error-message">
+                        Password is required
+                    </span>
+                </ng-container>
+            </nz-form-explain>
+        </nz-form-control>
+    </nz-form-item>
+</form>
